@@ -31,9 +31,13 @@
             position: relative;
         }
         
-        /* HEADER */
+        /* HEADER (Default/Desktop: Tengah) */
         #main-header {
-            position: fixed; top: 0; width: 100%; display: flex; align-items: center; justify-content: center; padding: 10px 0; z-index: 100; 
+            position: fixed; top: 0; width: 100%; display: flex; align-items: center; 
+            /* POSISI DEFAULT: TENGAH */
+            justify-content: center; 
+            /* END POSISI DEFAULT */
+            padding: 10px 0; z-index: 100; 
             background-image: linear-gradient(90deg, #ff4500, #ffa500, #ffff00, #ffa500, #ff4500), linear-gradient(0deg, #ff69b4, #ffffff, #00ffff); 
             animation: fireWaveAnimation 10s linear infinite, headerBgRotate 2s linear infinite, headerGlow 4s infinite alternate; 
             background-size: 400% auto, 100% 100%; background-position: 0% center, 0% 0%; 
@@ -183,11 +187,23 @@
         /* --- MEDIA QUERY BARU: MOBILE LANDSCAPE (Tablet Kecil & Ponsel) --- */
         @media screen and (orientation: landscape) and (max-width: 920px) {
             /* Menggunakan kembali padding/header desktop */
-            body { padding-top: 10px; padding-bottom: 170px; }
-            #main-header { font-size: 1.8rem; padding: 10px 0; }
+            body { padding-top: 10px; padding-bottom: 140px; }
+            
+            /* >>> PERUBAHAN UTAMA: LOGO DI KIRI <<< */
+            #main-header { 
+                /* Logo di Kiri (flex-start) */
+                justify-content: flex-start; 
+                /* Menambahkan padding kiri agar tidak terlalu mepet */
+                padding: 10px 20px; 
+                font-size: 1.8rem; 
+            }
+            /* >>> AKHIR PERUBAHAN UTAMA <<< */
+
             #header-logo-link { margin-right: 10px; width: 70px; height: 70px; }
             #header-logo { width: 60px; height: 60px; }
-            .nav-container { padding: 10px 15px; }
+            
+            /* Memastikan Navigasi tetap di Kanan Atas */
+            .nav-container { padding: 10px 15px; right: 0; }
             .dropdown-toggle { font-size: 1.8rem; }
             .dropdown-menu { right: 15px; min-width: 110px; } 
 
@@ -196,7 +212,7 @@
                 /* UKURAN BOX: 100px Lebar, 150px Tinggi */
                 width: 100px; 
                 height: 150px; 
-                margin-bottom: 20px; 
+                margin-bottom: 60px; 
             }
             .box span { 
                 /* translateZ disesuaikan untuk lebar 100px */
@@ -258,7 +274,7 @@
         <a href="https://example.com" id="header-logo-link" target="_blank"> 
             <img id="header-logo" src="https://img.freepik.com/vektor-premium/dragon-logo-format-design-very-cool-basic-vector-ink_803054-638.jpg" alt="Logo">
         </a>
-        ABIE XAOLI REAL
+        ELON MUST TWEET FIRST
     </div>
     
     <div class="nav-container">
