@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ABIE XAOLI REAL</title>
+    <title>ELON MUST TWEET FIRST</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
     <style>
@@ -183,7 +183,7 @@
         /* --- MEDIA QUERY BARU: MOBILE LANDSCAPE (Tablet Kecil & Ponsel) --- */
         @media screen and (orientation: landscape) and (max-width: 920px) {
             /* Menggunakan kembali padding/header desktop */
-            body { padding-top: 70px; padding-bottom: 50px; }
+            body { padding-top: 10px; padding-bottom: 170px; }
             #main-header { font-size: 1.8rem; padding: 10px 0; }
             #header-logo-link { margin-right: 10px; width: 70px; height: 70px; }
             #header-logo { width: 60px; height: 60px; }
@@ -191,31 +191,31 @@
             .dropdown-toggle { font-size: 1.8rem; }
             .dropdown-menu { right: 15px; min-width: 110px; } 
 
-            /* Menerapkan gaya GALERI KHUSUS LANDSCAPE (UKURAN BARU: 20x140) */
+            /* Menerapkan gaya GALERI KHUSUS LANDSCAPE (UKURAN BARU: 100x150) */
             .box { 
-                /* UKURAN BOX: 20px Lebar, 140px Tinggi */
-                width: 20px; 
-                height: 140px; 
+                /* UKURAN BOX: 100px Lebar, 150px Tinggi */
+                width: 100px; 
+                height: 150px; 
                 margin-bottom: 20px; 
             }
             .box span { 
-                /* translateZ disesuaikan untuk ukuran 20x140px (Nilai yang lebih kecil karena lebar 20px) */
-                /* Jarak Z dihitung: Lebar / (2 * tan(18 derajat)) ~ 20 / 0.65 = 30.77 */
-                /* Menggunakan 35px sebagai nilai yang aman */
-                transform: rotateY(calc(var(--i) * 36deg)) translateZ(35px); 
+                /* translateZ disesuaikan untuk lebar 100px */
+                /* Jarak Z dihitung: Lebar / (2 * tan(18 derajat)) ~ 100 / 0.65 = 153.8 */
+                /* Menggunakan 155px sebagai nilai yang aman */
+                transform: rotateY(calc(var(--i) * 36deg)) translateZ(155px); 
                 border: 2px solid transparent; /* Mengurangi tebal border */
             }
             .box span:hover, .box span:focus-within { 
                 /* Menyesuaikan translateZ pada hover */
-                transform: rotateY(calc(var(--i) * 36deg)) translateZ(35px) scale(1.5); 
+                transform: rotateY(calc(var(--i) * 36deg)) translateZ(155px) scale(1.4); 
                 box-shadow: 0 0 10px rgba(0, 255, 255, 0.7); 
                 border: 2px solid transparent;
             }
 
-            /* MENGUBAH UKURAN FOTO ROTASI JADI 20x140 */
+            /* MENGUBAH UKURAN FOTO ROTASI JADI 100x150 */
             .box span img { 
-                width: 20px; 
-                height: 140px; 
+                width: 100px; /* Diubah menjadi 100px */
+                height: 150px; 
                 object-fit: cover; 
             }
 
