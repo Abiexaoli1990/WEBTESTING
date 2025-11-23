@@ -99,7 +99,11 @@
         .copy-container { position: relative; z-index: 10; display: flex; justify-content: center; align-items: center; gap: 5px; margin-top: 50px; margin-bottom: -90px; padding: 8px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(2px); border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.3); box-shadow: 0 0 10px rgba(0, 191, 255, 0.3); width: 90%; max-width: 600px; }
 
         /* Tombol Navigasi Bawah (SOSMED) */
-        .button-container { position: fixed; bottom: 0; left: 0; width: 100%; display: flex; justify-content: center; padding: 10px; box-sizing: border-box; gap: 10px; z-index: 10; }
+        .button-container { 
+            position: fixed; bottom: 0; left: 0; width: 100%; display: flex; 
+            justify-content: center; /* Default: Tengah */
+            padding: 10px; box-sizing: border-box; gap: 10px; z-index: 10; 
+        }
         
         .nav-button-bottom { 
             flex-grow: 1; padding: 9px 12px; text-decoration: none; border-radius: 10px; text-align: center; font-family: sans-serif; font-weight: bold;
@@ -220,8 +224,6 @@
             }
             .box span { 
                 /* translateZ disesuaikan untuk lebar 100px */
-                /* Jarak Z dihitung: Lebar / (2 * tan(18 derajat)) ~ 100 / 0.65 = 153.8 */
-                /* Menggunakan 155px sebagai nilai yang aman */
                 transform: rotateY(calc(var(--i) * 36deg)) translateZ(155px); 
                 border: 2px solid transparent; /* Mengurangi tebal border */
             }
@@ -257,15 +259,31 @@
                 width: auto; 
             }
 
-            /* Menerapkan kembali gaya NAVIGASI BAWAH DESKTOP */
-            .button-container { bottom: 0; }
+            /* >>> PERBAIKAN UTAMA: NAVIGASI BAWAH KE KIRI BAWAH (VERTIKAL) <<< */
+            .button-container { 
+                bottom: 0; 
+                left: 0; /* Menempel di kiri */
+                width: auto; /* Lebar sesuai konten */
+                height: auto;
+                padding: 10px 0 10px 10px; /* Padding bawah dan kiri */
+                
+                /* Pengaturan Flexbox Vertikal */
+                display: flex; /* Memastikan flexbox aktif */
+                flex-direction: column; /* Mengubah susunan menjadi kolom (vertikal) */
+                justify-content: flex-end; /* Memulai penyusunan dari bawah */
+                align-items: flex-start; /* Mengatur item agar rata kiri */
+                gap: 5px; /* Mengurangi jarak antar tombol */
+            }
             .nav-button-bottom { 
                 font-size: 1.2rem; 
                 padding: 9px 12px; 
-                max-width: 110px; 
+                max-width: 100px; /* Mengatur lebar maksimum setiap tombol */
+                margin-bottom: 5px; /* Tambahkan sedikit jarak di bawah setiap tombol */
+                flex-grow: 0; /* Menonaktifkan flex-grow */
                 border: 1px solid rgba(255, 255, 255, 0.2); 
             }
             .nav-button-bottom i { font-size: 1.5rem; }
+            /* >>> AKHIR PERBAIKAN UTAMA <<< */
         }
     </style>
 </head>
@@ -310,12 +328,7 @@
         <input type="text" value="KODE HERE BUY AND HOLD YOUR COIN" id="myInput">
         <button onclick="myFunction()" class="copy-btn">COPY ADDRESS</button>
     </div>
-    <div/>
-    <div/>
-    <div/
-    ><div/>
-    <div/>
-    <div/>
+    
     <div class="button-container">
         <a href="https://example.com" class="nav-button-bottom" id="twitter-btn"><i class="fa-brands fa-x-twitter"></i></a> 
         <a href="https://example.com" class="nav-button-bottom" id="telegram-btn"><i class="fa-brands fa-telegram"></i></a>
@@ -387,12 +400,16 @@
             gallery.style.transform = `perspective(1000px) rotateY(${currentRotation}deg)`; 
         }
 
+        // Event Listeners untuk Mouse
         gallery.addEventListener('mousedown', (e) => { isDragging = true; pauseRotation(); startX = e.clientX; gallery.classList.remove('paused'); velocity = 0; });
         document.addEventListener('mousemove', (e) => { if (!isDragging) return; const deltaX = e.clientX - startX; velocity = deltaX * 0.05 * sensitivity; currentRotation += velocity; startX = e.clientX; updateRotation(); });
         document.addEventListener('mouseup', () => { if (isDragging) { isDragging = false; startInertia(); } });
+        
+        // Event Listeners untuk Sentuhan (Touch)
         gallery.addEventListener('touchstart', (e) => { isDragging = true; pauseRotation(); startX = e.touches[0].clientX; gallery.classList.remove('paused'); velocity = 0; e.preventDefault(); }, { passive: false });
         document.addEventListener('touchmove', (e) => { if (!isDragging) return; const deltaX = e.touches[0].clientX - startX; velocity = deltaX * 0.05 * sensitivity; currentRotation += velocity; startX = e.touches[0].clientX; updateRotation(); e.preventDefault(); }, { passive: false });
         document.addEventListener('touchend', () => { if (isDragging) { isDragging = false; startInertia(); } });
+        
         startAutoRotate();
 
         // --- LOGIKA HUJAN & SALJU ---
@@ -403,25 +420,34 @@
         const snowflakes = []; const maxSnowflakes = 150; 
 
         function resizeCanvas() { width = window.innerWidth; height = window.innerHeight; rainCanvas.width = width; rainCanvas.height = height; snowCanvas.width = width; snowCanvas.height = height; }
+        
+        // Kelas untuk Tetesan Hujan
         class Drop {
             constructor() { this.reset(); this.z = Math.random() * 20 + 1; this.len = this.z; }
             reset() { this.x = Math.random() * width; this.y = Math.random() * height * 0.2 - 100; this.speedY = this.z * 0.4 + 5; this.alpha = 0.5 + Math.random() * 0.5; this.len = this.z * 2; this.vy = this.speedY; }
             fall() { this.y += this.vy; this.vy += 0.05; if (this.y > height) this.reset(); }
             draw() { rainCtx.beginPath(); rainCtx.strokeStyle = `rgba(255, 255, 255, ${this.alpha * 0.5})`; rainCtx.lineWidth = 1; rainCtx.moveTo(this.x, this.y); rainCtx.lineTo(this.x, this.y + this.len); rainCtx.stroke(); }
         }
+        
+        // Kelas untuk Kepingan Salju
         class Snowflake {
             constructor() { this.reset(); this.radius = Math.random() * 2 + 0.5; this.alpha = 0.5 + Math.random() * 0.5; this.speedX = Math.random() * 1.5 - 0.75; this.angle = Math.random() * 2 * Math.PI; this.sinSpeed = Math.random() * 0.05 + 0.01; }
             reset() { this.x = Math.random() * width; this.y = Math.random() * height * 0.2 - 100; this.speedY = Math.random() * 1 + 0.5; }
             fall() { this.y += this.speedY; this.x += Math.cos(this.angle) * this.speedX * 0.5; this.angle += this.sinSpeed; if (this.y > height || this.x < 0 || this.x > width) this.reset(); }
             draw() { snowCtx.beginPath(); snowCtx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI); snowCtx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`; snowCtx.fill(); }
         }
+        
         function initRain() { drops.length = 0; for (let i = 0; i < maxDrops; i++) drops.push(new Drop()); }
         function animateRain() { rainCtx.clearRect(0, 0, width, height); for (let i = 0; i < drops.length; i++) { drops[i].fall(); drops[i].draw(); } requestAnimationFrame(animateRain); }
         function initSnow() { snowflakes.length = 0; for (let i = 0; i < maxSnowflakes; i++) snowflakes.push(new Snowflake()); }
         function animateSnow() { snowCtx.clearRect(0, 0, width, height); for (let i = 0; i < snowflakes.length; i++) { snowflakes[i].fall(); snowflakes[i].draw(); } requestAnimationFrame(animateSnow); }
 
         window.addEventListener('resize', () => { resizeCanvas(); initRain(); initSnow(); });
-        resizeCanvas(); initRain(); initSnow(); animateRain(); animateSnow(); 
+        resizeCanvas(); 
+        initRain(); 
+        initSnow(); 
+        animateRain(); 
+        animateSnow(); 
     </script>
 
 </body>
